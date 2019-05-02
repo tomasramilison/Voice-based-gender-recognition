@@ -2,7 +2,8 @@ import os
 import pickle
 import warnings
 import numpy as np
-from sklearn.mixture import GMM
+from sklearn.mixture import GaussianMixture as GMM  # GMM class in scikitlearn changed to GaussianMixture
+                                                    # n_iter parameter is deprecated
 from FeaturesExtractor import FeaturesExtractor
 
 warnings.filterwarnings("ignore")
@@ -22,8 +23,8 @@ class ModelsTrainer:
         female_voice_features = self.collect_features(females)
         male_voice_features   = self.collect_features(males)
         # generate gaussian mixture models
-        females_gmm = GMM(n_components = 16, n_iter = 200, covariance_type='diag', n_init = 3)
-        males_gmm   = GMM(n_components = 16, n_iter = 200, covariance_type='diag', n_init = 3)
+        females_gmm = GMM(n_components = 16, covariance_type='diag', n_init = 3)  # Removed n_iter argument: deprecated
+        males_gmm   = GMM(n_components = 16, covariance_type='diag', n_init = 3)  # Removed n_iter argument: deprecated
         # fit features to models
         females_gmm.fit(female_voice_features)
         males_gmm.fit(male_voice_features)
